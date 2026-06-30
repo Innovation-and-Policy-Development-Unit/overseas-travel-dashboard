@@ -17,3 +17,7 @@ export function pct(n: number, total: number): string {
   if (total === 0) return '0%';
   return ((n / total) * 100).toFixed(1) + '%';
 }
+
+export function formatDate(d: Date): string {
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
