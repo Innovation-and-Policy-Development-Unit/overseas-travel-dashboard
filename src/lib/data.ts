@@ -315,6 +315,63 @@ export function isIncomplete(r: TravelRow): boolean {
   return r.estimatedCost === null || r.approvalStatus === 'Pending' || r.gender === '';
 }
 
+export type ReportStatus = 'Submitted' | 'Overdue' | 'Due Soon' | 'Not Yet Due' | 'No Return Date';
+
+export function reportDueDate(returnDateStr: string): Date | null {
+  const ret = parseTravelDate(returnDateStr);
+  if (!ret) return null;
+  const due = new Date(ret);
+  due.setDate(due.getDate() + 5);
+  return due;
+}
+
+export function getReportStatus(r: TravelRow, today = new Date()): ReportStatus {
+  if (r.report !== '') return 'Submitted';
+  const ret = parseTravelDate(r.returnDate);
+  if (!ret) return 'No Return Date';
+  const todayMidnight = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const retMidnight = new Date(ret.getFullYear(), ret.getMonth(), ret.getDate());
+  if (retMidnight > todayMidnight) return 'Not Yet Due';
+  const daysSinceReturn = Math.floor((todayMidnight.getTime() - retMidnight.getTime()) / (1000 * 60 * 60 * 24));
+  if (daysSinceReturn > 5) return 'Overdue';
+  return 'Due Soon';
+}
+
+export interface ReportCompliance {
+  total: number;
+  submitted: number;
+  overdue: number;
+  dueSoon: number;
+  notYetDue: number;
+  noReturnDate: number;
+  submissionRate: number;
+  overdueRate: number;
+}
+
+export function reportCompliance(rows: TravelRow[], today = new Date()): ReportCompliance {
+  const returned = rows.filter(r => {
+    const ret = parseTravelDate(r.returnDate);
+    if (!ret) return false;
+    return ret <= today;
+  });
+  const submitted = returned.filter(r => r.report !== '').length;
+  const overdue = returned.filter(r => getReportStatus(r, today) === 'Overdue').length;
+  const dueSoon = returned.filter(r => getReportStatus(r, today) === 'Due Soon').length;
+  const notYetDue = rows.filter(r => getReportStatus(r, today) === 'Not Yet Due').length;
+  const noReturnDate = rows.filter(r => getReportStatus(r, today) === 'No Return Date').length;
+  const total = returned.length;
+  return {
+    total,
+    submitted,
+    overdue,
+    dueSoon,
+    notYetDue,
+    noReturnDate,
+    submissionRate: total > 0 ? Math.round((submitted / total) * 100) : 0,
+    overdueRate: total > 0 ? Math.round((overdue / total) * 100) : 0,
+  };
+}
+
 export function getAvailableYears(rows: TravelRow[]): number[] {
   const years = new Set<number>();
   for (const r of rows) {

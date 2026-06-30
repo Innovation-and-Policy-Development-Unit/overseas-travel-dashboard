@@ -388,27 +388,54 @@
     </div>
 
     <!-- ── PUSH ───────────────────────────────────────────── -->
-    <h2 id="update-push">Step 2 — Push to GitHub</h2>
-    <p>Once the Excel file is updated in the repository folder, commit and push the change to GitHub. The dashboard will rebuild and deploy automatically within 1–2 minutes.</p>
+    <h2 id="update-push">Step 2 — Publish the update using GitHub Desktop</h2>
+    <p>GitHub Desktop is a free, easy-to-use application that sends your updated Excel file to GitHub so the dashboard can rebuild. It does not require any technical knowledge — just a few clicks.</p>
 
-    <p>Using <strong>Git command line</strong> (in the project folder):</p>
-    <ol class="steps">
-      <li>Open a terminal / PowerShell window and navigate to the project directory.</li>
-      <li>Run: <code>git add public/data/overseas_travel.xlsx</code></li>
-      <li>Run: <code>git commit -m "Update travel data July 2026"</code></li>
-      <li>Run: <code>git push</code></li>
-    </ol>
-
-    <p>Using <strong>GitHub Desktop</strong>:</p>
-    <ol class="steps">
-      <li>Open GitHub Desktop. The changed file (<code>overseas_travel.xlsx</code>) should appear in the Changes panel on the left.</li>
-      <li>Type a short commit message in the Summary field (e.g. "Update travel data July 2026").</li>
-      <li>Click <strong>Commit to main</strong>.</li>
-      <li>Click <strong>Push origin</strong> (top toolbar).</li>
-    </ol>
     <div class="callout info">
-      <strong>GitHub Actions runs the build automatically</strong>
-      Pushing to the <code>main</code> branch triggers a GitHub Actions workflow that builds the dashboard and deploys it to GitHub Pages. You can watch the progress under the <strong>Actions</strong> tab of the repository on GitHub.com.
+      <strong>First time only — install GitHub Desktop</strong>
+      Download GitHub Desktop from <strong>desktop.github.com</strong> and sign in with your GitHub account. Ask your system administrator to open the repository in GitHub Desktop for you the first time (File → Clone repository). After that, the steps below are all you need each time you update the data.
+    </div>
+
+    <ol class="steps">
+      <li>
+        <div>
+          <strong>Open GitHub Desktop.</strong><br>
+          You will see the repository name at the top-left (e.g. <em>OverseasTravelRegistry</em>). On the left panel, under <strong>Changes</strong>, you should see <code>overseas_travel.xlsx</code> listed with a tick beside it. This means GitHub Desktop has detected your updated file.
+          <div class="callout tip" style="margin-top:10px;">
+            <strong>File not showing?</strong>
+            Make sure you saved the Excel file and that you copied it into the correct folder: <code>public/data/overseas_travel.xlsx</code> inside the repository folder on your computer.
+          </div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Write a short description of the change.</strong><br>
+          At the bottom-left of GitHub Desktop, there is a <strong>Summary</strong> box. Type a brief note such as:<br>
+          <code style="display:inline-block; margin-top:6px;">Update travel data — July 2026</code><br>
+          <span style="font-size:12px; color:#666; display:block; margin-top:4px;">This message is for your records only — it does not appear on the dashboard.</span>
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Click "Commit to main".</strong><br>
+          This saves a record of your change on your computer. The button is at the bottom-left of the screen.
+        </div>
+      </li>
+      <li>
+        <div>
+          <strong>Click "Push origin".</strong><br>
+          This button appears at the top of the screen after you commit. Clicking it sends your change to GitHub. The dashboard will automatically start rebuilding — this usually takes <strong>1–2 minutes</strong>.
+          <div class="callout warn" style="margin-top:10px;">
+            <strong>No internet connection?</strong>
+            The Push step requires an internet connection. If the button is greyed out or shows an error, check your connection and try again.
+          </div>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout info">
+      <strong>What happens next?</strong>
+      Once you click Push origin, GitHub automatically rebuilds the dashboard in the background. You do not need to do anything else. Within 1–2 minutes, anyone who opens the dashboard URL will see the updated data. (They may need to refresh their browser with <kbd>Ctrl + F5</kbd> if they already had it open.)
     </div>
 
     <!-- ── VERIFY ─────────────────────────────────────────── -->

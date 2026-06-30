@@ -5,6 +5,7 @@ import type { TravelRow } from '../lib/types';
 import {
   ministryAggregates, fundingBreakdown, approvalBreakdown, travelModeBreakdown,
   topDestinations, travelsByMonth, fundingTrend, topDonors, dataQuality, averageMetrics,
+  reportCompliance,
 } from '../lib/data';
 import { KpiCard } from '../components/KpiCard';
 import { Panel } from '../components/Panel';
@@ -36,6 +37,7 @@ export function ExecutiveOverview({ rows, loadedAt }: Props) {
   const donors = useMemo(() => topDonors(rows, 10), [rows]);
   const quality = useMemo(() => dataQuality(rows), [rows]);
   const metrics = useMemo(() => averageMetrics(rows), [rows]);
+  const rptCompliance = useMemo(() => reportCompliance(rows), [rows]);
 
   const labelStyle = { color: dark ? '#a0aec0' : '#4a5568', fontSize: '10px' };
 
@@ -241,6 +243,46 @@ export function ExecutiveOverview({ rows, loadedAt }: Props) {
       {/* Destinations */}
       <Panel title="Top 10 Destinations">
         <HighchartsReact highcharts={Highcharts} options={destChartOpts} />
+      </Panel>
+
+      {/* Report Compliance */}
+      <Panel title="Report Compliance — ODU Tracking">
+        <p className="mb-4 text-[12px] text-un-secondary leading-relaxed">
+          Officers must submit a trip report within <strong>5 days</strong> of returning. Counts below are for all {formatInt(rptCompliance.total)} officers who have already returned.
+        </p>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 mb-5">
+          {([
+            { label: 'Overdue', value: rptCompliance.overdue, sub: `${rptCompliance.overdueRate}% of returned`, color: 'text-red-600 dark:text-red-400', dot: 'bg-red-500' },
+            { label: 'Due Soon', value: rptCompliance.dueSoon, sub: 'Within 5-day window', color: 'text-orange-600 dark:text-orange-400', dot: 'bg-orange-400' },
+            { label: 'Submitted', value: rptCompliance.submitted, sub: `${rptCompliance.submissionRate}% submission rate`, color: 'text-green-600 dark:text-green-400', dot: 'bg-green-500' },
+            { label: 'Not Yet Due', value: rptCompliance.notYetDue, sub: 'Still travelling or future', color: 'text-un-secondary', dot: 'bg-slate-300' },
+          ] as const).map(({ label, value, sub, color, dot }) => (
+            <div key={label} className="rounded-lg border border-un-border bg-un-wash p-3">
+              <div className="flex items-center gap-1.5 mb-1">
+                <span className={`h-2 w-2 rounded-full flex-shrink-0 ${dot}`} />
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-un-tertiary">{label}</span>
+              </div>
+              <p className={`text-[26px] font-bold leading-none mb-1 ${color}`}>{formatInt(value)}</p>
+              <p className="text-[10px] text-un-tertiary">{sub}</p>
+            </div>
+          ))}
+        </div>
+        {/* Submission rate bar */}
+        <div>
+          <div className="mb-1.5 flex justify-between text-[11px]">
+            <span className="text-un-secondary font-medium">Submission rate (returned officers)</span>
+            <span className="tabular-nums text-un-fg">{formatInt(rptCompliance.submitted)} / {formatInt(rptCompliance.total)} ({rptCompliance.submissionRate}%)</span>
+          </div>
+          <div className="h-3 w-full rounded-full bg-un-wash overflow-hidden flex">
+            <div className="h-3 bg-green-500 transition-all" style={{ width: `${rptCompliance.submissionRate}%` }} title={`Submitted: ${rptCompliance.submitted}`} />
+            <div className="h-3 bg-red-500 transition-all" style={{ width: `${rptCompliance.overdueRate}%` }} title={`Overdue: ${rptCompliance.overdue}`} />
+          </div>
+          <div className="mt-1.5 flex gap-4 text-[10px] text-un-tertiary">
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-green-500" />Submitted</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-red-500" />Overdue</span>
+            <span className="flex items-center gap-1"><span className="h-2 w-2 rounded-full bg-un-border" />Pending / not yet due</span>
+          </div>
+        </div>
       </Panel>
 
       {/* Data Quality */}
