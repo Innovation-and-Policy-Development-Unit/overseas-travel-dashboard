@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --un-fg: 26 26 26;
+    --un-secondary: 74 85 104;
+    --un-tertiary: 113 128 150;
+    --un-surface: 255 255 255;
+    --un-canvas: 246 247 249;
+    --un-border: 220 224 231;
+    --un-wash: 236 240 246;
+    --un-deep: 13 74 122;
+    --un-navy: 26 54 93;
+
+    --un-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --un-shadow-sm: 0 0 0 1px rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.08);
+    --un-shadow-md: 0 0 0 1px rgb(0 0 0 / 0.06), 0 2px 6px 0 rgb(0 0 0 / 0.10);
+    --un-shadow-lg: 0 0 0 1px rgb(0 0 0 / 0.06), 0 2px 6px 0 rgb(0 0 0 / 0.10);
+    --un-shadow-inset: inset 0 1px 2px 0 rgb(0 0 0 / 0.06);
+    --un-shadow-glow: 0 0 0 1px rgb(0 0 0 / 0.06), 0 1px 3px 0 rgb(0 0 0 / 0.08);
+  }
+
+  html.dark {
+    color-scheme: dark;
+    --un-fg: 237 242 247;
+    --un-secondary: 160 174 192;
+    --un-tertiary: 113 128 150;
+    --un-surface: 26 32 44;
+    --un-canvas: 17 21 31;
+    --un-border: 45 55 72;
+    --un-wash: 35 42 58;
+    --un-deep: 144 192 237;
+    --un-navy: 190 218 248;
+
+    --un-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --un-shadow-sm: 0 0 0 1px rgb(0 0 0 / 0.3), 0 1px 3px 0 rgb(0 0 0 / 0.4);
+    --un-shadow-md: 0 0 0 1px rgb(0 0 0 / 0.3), 0 2px 6px 0 rgb(0 0 0 / 0.4);
+    --un-shadow-lg: 0 0 0 1px rgb(0 0 0 / 0.3), 0 2px 6px 0 rgb(0 0 0 / 0.4);
+    --un-shadow-inset: inset 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --un-shadow-glow: 0 0 0 1px rgb(0 0 0 / 0.3), 0 1px 3px 0 rgb(0 0 0 / 0.4);
+  }
+
+  body {
+    @apply bg-un-canvas text-un-fg font-sans antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .un-elevated {
+    @apply shadow-un-md;
+  }
+
+  .un-page-header {
+    @apply border-l-4 border-l-primary pl-4 pb-2 border-b border-b-un-border;
+  }
+
+  .un-table-shell {
+    @apply rounded-md border border-un-border shadow-un-sm overflow-hidden;
+  }
+
+  .un-thead {
+    @apply sticky top-0 z-10 bg-un-canvas border-b border-un-border;
+  }
+
+  .un-thead th {
+    @apply px-3 py-2 text-left text-[10px] font-semibold uppercase tracking-wide text-un-tertiary;
+  }
+
+  .un-trow {
+    @apply border-b border-un-border last:border-0 hover:bg-un-wash transition-colors duration-75;
+  }
+}
