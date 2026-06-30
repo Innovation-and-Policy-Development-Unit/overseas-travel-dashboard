@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Manual — 2026 Overseas Travel Registry Dashboard</title>
+  <style>
+    :root {
+      --blue: #0072bc;
+      --blue-dark: #005a94;
+      --text: #1a202c;
+      --muted: #4a5568;
+      --border: #e2e8f0;
+      --bg: #f7fafc;
+      --white: #ffffff;
+      --yellow: #f6ad55;
+      --green: #48bb78;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Montserrat', 'Segoe UI', Arial, sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Layout */
+    .wrapper { display: flex; min-height: 100vh; }
+    nav {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--white);
+      border-right: 1px solid var(--border);
+      padding: 32px 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    nav .logo {
+      padding: 0 20px 24px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 16px;
+    }
+    nav .logo h2 { font-size: 13px; font-weight: 700; color: var(--blue); line-height: 1.3; }
+    nav .logo p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    nav ul { list-style: none; padding: 0 8px; }
+    nav ul li a {
+      display: block;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    nav ul li a:hover { background: var(--bg); color: var(--blue); text-decoration: none; }
+    nav ul li.section {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #a0aec0;
+      padding: 16px 12px 4px;
+    }
+
+    main { flex: 1; padding: 48px 64px; max-width: 900px; }
+
+    /* Typography */
+    h1 { font-size: 28px; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
+    .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 40px; border-bottom: 2px solid var(--blue); padding-bottom: 16px; }
+    h2 { font-size: 20px; font-weight: 700; color: var(--text); margin: 48px 0 12px; padding-top: 8px; }
+    h3 { font-size: 15px; font-weight: 600; color: var(--blue-dark); margin: 28px 0 8px; }
+    p { margin-bottom: 12px; }
+    ul, ol { margin: 8px 0 16px 20px; }
+    li { margin-bottom: 4px; }
+
+    /* Screenshot */
+    .screenshot {
+      margin: 20px 0 28px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .screenshot img { display: block; width: 100%; height: auto; }
+    .screenshot figcaption {
+      font-size: 11px;
+      color: var(--muted);
+      padding: 8px 14px;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
+
+    /* Callout boxes */
+    .callout {
+      border-radius: 6px;
+      padding: 14px 16px;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .callout.info { background: #ebf8ff; border-left: 4px solid var(--blue); }
+    .callout.warn { background: #fffbeb; border-left: 4px solid var(--yellow); }
+    .callout.tip  { background: #f0fff4; border-left: 4px solid var(--green); }
+    .callout strong { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+    .callout.info strong { color: var(--blue); }
+    .callout.warn strong { color: #c05621; }
+    .callout.tip  strong { color: #276749; }
+
+    /* Steps */
+    .steps { counter-reset: step; list-style: none; margin-left: 0; }
+    .steps li {
+      counter-increment: step;
+      display: flex;
+      gap: 14px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step);
+      flex-shrink: 0;
+      width: 26px;
+      height: 26px;
+      background: var(--blue);
+      color: white;
+      border-radius: 50%;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    /* Table */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 16px 0 24px; }
+    th { background: var(--blue); color: white; padding: 8px 12px; text-align: left; font-size: 12px; font-weight: 600; }
+    td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:nth-child(even) td { background: var(--bg); }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .badge.yellow { background: #fef3c7; color: #92400e; }
+    .badge.blue   { background: #dbeafe; color: #1e40af; }
+    .badge.green  { background: #dcfce7; color: #166534; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+    footer { font-size: 11px; color: var(--muted); margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Sidebar navigation -->
+  <nav>
+    <div class="logo">
+      <h2>Overseas Travel<br>Registry Dashboard</h2>
+      <p>User Manual · 2026 Edition</p>
+    </div>
+    <ul>
+      <li class="section">Introduction</li>
+      <li><a href="#overview">What is this dashboard?</a></li>
+      <li><a href="#access">Accessing the dashboard</a></li>
+      <li><a href="#layout">Page layout &amp; navigation</a></li>
+
+      <li class="section">Using the Dashboard</li>
+      <li><a href="#year-filter">Filtering by year</a></li>
+      <li><a href="#executive">Executive Overview</a></li>
+      <li><a href="#ministry">Ministry Breakdown</a></li>
+      <li><a href="#tracker">Travel Tracker</a></li>
+      <li><a href="#export">Exporting data (CSV)</a></li>
+      <li><a href="#dark-mode">Dark mode</a></li>
+
+      <li class="section">Updating Dashboard Data</li>
+      <li><a href="#update-excel">Step 1 — Update the Excel file</a></li>
+      <li><a href="#update-push">Step 2 — Push to GitHub</a></li>
+      <li><a href="#update-verify">Step 3 — Verify the deployment</a></li>
+      <li><a href="#columns">Required Excel columns</a></li>
+
+      <li class="section">Reference</li>
+      <li><a href="#glossary">Glossary</a></li>
+      <li><a href="#troubleshoot">Troubleshooting</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main content -->
+  <main>
+    <h1>User Manual</h1>
+    <p class="subtitle">2026 Overseas Travel Registry Dashboard — Version 1.0 &nbsp;·&nbsp; Published 1 July 2026</p>
+
+    <!-- ── INTRODUCTION ─────────────────────────────────── -->
+    <h2 id="overview">What is this dashboard?</h2>
+    <p>The <strong>2026 Overseas Travel Registry Dashboard</strong> is an interactive web application that visualises all overseas (and domestic) travel requests submitted by Vanuatu Public Service Commission officers for 2026. It reads directly from the master Excel workbook and presents the data across three analytical pages:</p>
+    <ul>
+      <li><strong>Executive Overview</strong> — KPI cards, charts, gender equity, data quality</li>
+      <li><strong>Ministry Breakdown</strong> — per-ministry statistics with drill-down</li>
+      <li><strong>Travel Tracker</strong> — full searchable &amp; filterable record table with CSV export</li>
+    </ul>
+    <p>The dashboard is hosted on GitHub Pages and updates automatically whenever the Excel file is pushed to the repository. No server or database is required — the browser loads the Excel file directly.</p>
+
+    <!-- ── ACCESS ─────────────────────────────────────────── -->
+    <h2 id="access">Accessing the dashboard</h2>
+    <p>The dashboard is a public web page. Open it in any modern browser (Edge, Chrome, Firefox, Safari):</p>
+    <div class="callout info">
+      <strong>Dashboard URL</strong>
+      The URL is set when the repository is published to GitHub Pages. Ask your system administrator for the current address, or find it in the repository Settings → Pages section on GitHub.
+    </div>
+    <p>No login is required. The dashboard works on desktop and tablet screens. On small screens, tap the ☰ (menu) icon in the top-left corner to open the sidebar.</p>
+
+    <!-- ── LAYOUT ─────────────────────────────────────────── -->
+    <h2 id="layout">Page layout &amp; navigation</h2>
+    <figure class="screenshot">
+      <img src="images/executive-overview.png" alt="Executive Overview page showing the full dashboard layout with sidebar, KPI cards, and charts" />
+      <figcaption>Fig 1 — The Executive Overview page. The left sidebar contains the year filter, navigation links, and the theme toggle.</figcaption>
+    </figure>
+    <p>The screen is divided into two areas:</p>
+    <ul>
+      <li><strong>Left sidebar</strong> — year filter buttons at the top, navigation links in the middle (Executive Overview, Ministry Breakdown, Travel Tracker), and the dark-mode theme toggle at the bottom.</li>
+      <li><strong>Main content area</strong> — the active page, with a title bar showing the data load timestamp.</li>
+    </ul>
+
+    <!-- ── YEAR FILTER ───────────────────────────────────── -->
+    <h2 id="year-filter">Filtering by year</h2>
+    <p>The <strong>Filter by Year</strong> buttons at the top of the sidebar apply to <em>all three pages simultaneously</em>. Clicking a year button restricts every chart, KPI card, table, and count to only the travel records with a travel date in that year.</p>
+    <ul>
+      <li><strong>All Years</strong> — show every record regardless of travel date (default)</li>
+      <li><strong>2026</strong> (or other years listed) — show only records where the travel date falls in that year</li>
+    </ul>
+    <div class="callout info">
+      <strong>Note on records with no travel date</strong>
+      Records where the travel date is empty or could not be read are <em>always included</em> in every year view, because excluding them would undercount the dataset. They appear in all year filters.
+    </div>
+
+    <!-- ── EXECUTIVE OVERVIEW ─────────────────────────────── -->
+    <h2 id="executive">Executive Overview</h2>
+    <p>This is the main summary page. It opens by default when you load the dashboard.</p>
+
+    <h3>KPI Cards</h3>
+    <p>Eight metric cards appear in two rows at the top:</p>
+    <table>
+      <tr><th>Card</th><th>What it shows</th></tr>
+      <tr><td>Total Travel Requests</td><td>Total number of rows in the dataset (international + domestic)</td></tr>
+      <tr><td>Approved</td><td>Records with approval status "Approved" and the approval rate %</td></tr>
+      <tr><td>Donor Funded</td><td>Count and % of trips funded by donors (fully or partly)</td></tr>
+      <tr><td>Est. Total Cost</td><td>Sum of all declared estimated travel costs in VUV</td></tr>
+      <tr><td>Avg. Trip Duration</td><td>Average days between travel date and return date (capped at 90 days to exclude data errors)</td></tr>
+      <tr><td>Avg. Cost per Trip</td><td>Average estimated cost across records that have a declared cost</td></tr>
+      <tr><td>Report Submission Rate</td><td>% of records that have a report filed</td></tr>
+      <tr><td>Gender Equity (Female)</td><td>% of gendered records where the officer is female</td></tr>
+    </table>
+    <p>Two additional cards show raw counts of <strong>Male Officers</strong> and <strong>Female Officers</strong>.</p>
+
+    <h3>Charts</h3>
+    <ul>
+      <li><strong>Travel Requests by Month</strong> — bar chart showing how many trips depart each calendar month</li>
+      <li><strong>Travel Requests by Ministry</strong> — horizontal bar chart; toggle between "By Requests" and "By Cost" tabs</li>
+      <li><strong>Funding Source</strong> — donut chart (Donor Funded / Government Funded / Partly Funded / Unknown)</li>
+      <li><strong>Approval Status</strong> — donut chart (Approved / Not Approved / Pending)</li>
+      <li><strong>Funding Trend</strong> — stacked line/area chart showing donor vs. government funding per month</li>
+      <li><strong>Top Donors</strong> — horizontal bar chart of the organisations funding the most trips</li>
+      <li><strong>Gender Distribution</strong> — donut chart (Male / Female / Not recorded)</li>
+      <li><strong>Travel Mode</strong> — donut chart (Group/Mission vs. Individual)</li>
+      <li><strong>Top Destinations</strong> — horizontal bar chart of the most common destination countries/cities</li>
+    </ul>
+
+    <h3>Data Quality Panel</h3>
+    <p>At the bottom of the page, a panel shows the completeness of five key fields (Estimated Cost, Approval Status, Report Filed, Gender, Destination) as progress bars, plus an overall data quality score out of 100%.</p>
+    <div class="callout tip">
+      <strong>Tip</strong>
+      A low data quality score means many records are missing key fields. Ask ministries to fill in the highlighted fields in the Excel file before the next reporting deadline.
+    </div>
+
+    <!-- ── MINISTRY BREAKDOWN ─────────────────────────────── -->
+    <h2 id="ministry">Ministry Breakdown</h2>
+    <figure class="screenshot">
+      <img src="images/ministry-breakdown.png" alt="Ministry Breakdown page showing the sortable ministry table" />
+      <figcaption>Fig 2 — Ministry Breakdown. Click any column header to sort. Click a ministry row to drill down into its department detail.</figcaption>
+    </figure>
+    <p>This page gives a per-ministry summary table with the following columns:</p>
+    <table>
+      <tr><th>Column</th><th>Description</th></tr>
+      <tr><td>Ministry</td><td>Ministry acronym</td></tr>
+      <tr><td>Total</td><td>Total travel requests from that ministry</td></tr>
+      <tr><td>Approved</td><td>Approved count and approval rate %</td></tr>
+      <tr><td>Donor Funded</td><td>Number of donor-funded trips</td></tr>
+      <tr><td>Male / Female</td><td>Gendered officer counts</td></tr>
+      <tr><td>Est. Cost (VUV)</td><td>Total declared cost for the ministry</td></tr>
+      <tr><td>Gender Equity</td><td>Mini progress bar showing the female % at a glance</td></tr>
+    </table>
+
+    <h3>Sorting</h3>
+    <p>Click any column header to sort ascending; click again to sort descending. A small arrow (▲▼) indicates the active sort direction. The default sort is by Total requests (highest first).</p>
+
+    <h3>Drill-down panel</h3>
+    <p>Click any ministry row to expand a detail panel below the table. The panel shows a breakdown by <strong>Department</strong> within that ministry, listing total trips, approval rate, and cost per department.</p>
+    <p>Click the same row again (or another row) to collapse or switch the drill-down.</p>
+
+    <h3>Gender Equity Chart</h3>
+    <p>Below the table, a stacked horizontal bar chart shows the male/female split for the top 15 ministries by total requests. This gives an at-a-glance view of gender representation across the public service.</p>
+
+    <!-- ── TRAVEL TRACKER ─────────────────────────────────── -->
+    <h2 id="tracker">Travel Tracker</h2>
+    <figure class="screenshot">
+      <img src="images/travel-tracker.png" alt="Travel Tracker page showing the full record table with filters and search" />
+      <figcaption>Fig 3 — Travel Tracker. Use the search box and drop-down filters to narrow the list, then export to CSV if needed.</figcaption>
+    </figure>
+    <p>The Travel Tracker shows every individual travel record as a row in a scrollable table. It is the most detailed view in the dashboard.</p>
+
+    <h3>Search</h3>
+    <p>Type in the <strong>Search officer, ministry, destination…</strong> box to instantly filter rows. The search matches across Officer Name, Ministry, and Destination fields simultaneously.</p>
+
+    <h3>Drop-down filters</h3>
+    <p>Four drop-down filters refine the list further:</p>
+    <ul>
+      <li><strong>Ministry</strong> — select one ministry or "All"</li>
+      <li><strong>Approval</strong> — filter by Approved / Not Approved / Pending</li>
+      <li><strong>Funding</strong> — filter by funding source category</li>
+      <li><strong>Mode</strong> — filter by Group/Mission or Individual travel</li>
+    </ul>
+
+    <h3>Incomplete only filter</h3>
+    <p>Tick the <strong>Incomplete only</strong> checkbox to show only records that are flagged as incomplete. The badge shows how many incomplete records exist in the current filtered set.</p>
+    <div class="callout warn">
+      <strong>What does "Incomplete" mean?</strong>
+      A record is flagged as incomplete <span class="badge yellow">⚠</span> if it is missing <em>any one</em> of the following three fields:
+      <ul style="margin-top:8px;">
+        <li>Estimated travel cost (blank or zero)</li>
+        <li>Approval status not yet set (showing as "Pending")</li>
+        <li>Officer gender not recorded</li>
+      </ul>
+      Incomplete rows have a yellow left border in the table. Hover the ⓘ icon next to the checkbox to see this reminder at any time.
+    </div>
+
+    <h3>Columns in the table</h3>
+    <p>The table contains 18 columns. Scroll horizontally to see them all:</p>
+    <p>Officer Name · Gender · Position Title · Ministry · Department · Type of Travel · Travel Date · Return Date · Destination · Purpose · Funding Source · Est. Cost (VUV) · Imprest Total · Donor Name · Approval Status · Report Filed · Travel Mode · Sheet (International / Domestic)</p>
+
+    <!-- ── EXPORT ─────────────────────────────────────────── -->
+    <h2 id="export">Exporting data (CSV)</h2>
+    <p>On the Travel Tracker page, click the <strong>↓ Export CSV</strong> button (top-right of the table) to download the currently visible rows as a comma-separated values file.</p>
+    <div class="callout info">
+      <strong>Export reflects active filters</strong>
+      The CSV includes only the rows matching the current search text, drop-down filters, year filter, and "Incomplete only" checkbox. Clear all filters first if you want to export everything.
+    </div>
+    <p>The downloaded file is named <code>overseas_travel.csv</code> and can be opened in Excel or any spreadsheet application.</p>
+
+    <!-- ── DARK MODE ──────────────────────────────────────── -->
+    <h2 id="dark-mode">Dark mode</h2>
+    <p>Click the <strong>moon / sun icon</strong> at the very bottom of the left sidebar to toggle between light and dark themes. The preference is saved in your browser and will persist when you return to the dashboard.</p>
+
+    <hr />
+
+    <!-- ── UPDATING DATA ──────────────────────────────────── -->
+    <h2 id="update-excel">Step 1 — Update the Excel file</h2>
+    <p>All dashboard data comes from a single Excel workbook. The workbook must contain exactly two sheets:</p>
+    <ul>
+      <li><strong>International Travels</strong> — overseas travel records (sheet 1)</li>
+      <li><strong>Domestic Travels</strong> — in-country travel records (sheet 2)</li>
+    </ul>
+    <div class="callout warn">
+      <strong>Keep the sheet names exactly as written above</strong>
+      The dashboard looks for sheets named "International Travels" and "Domestic Travels" (case-sensitive, with a space). Renaming either sheet will cause it to be ignored.
+    </div>
+
+    <p>To update the data:</p>
+    <ol class="steps">
+      <li>Open the master workbook: <code>Copy of 2026 Overseas Travel Registration.xlsx</code></li>
+      <li>Add new rows or update existing rows in the <strong>International Travels</strong> or <strong>Domestic Travels</strong> sheets. Do not remove column headers.</li>
+      <li>Save the file with the same name in the same location.</li>
+      <li>Copy (overwrite) the saved file to the repository folder at:<br><code>public/data/overseas_travel.xlsx</code></li>
+    </ol>
+    <div class="callout tip">
+      <strong>Date format tip</strong>
+      Enter travel dates as <code>DD.MM.YYYY</code> (e.g. <code>15.03.2026</code>) or allow Excel to store them as date cells. Avoid free-text entries like "15/03/2026 &amp; 22/03/2026" — only the first date would be read.
+    </div>
+
+    <!-- ── PUSH ───────────────────────────────────────────── -->
+    <h2 id="update-push">Step 2 — Push to GitHub</h2>
+    <p>Once the Excel file is updated in the repository folder, commit and push the change to GitHub. The dashboard will rebuild and deploy automatically within 1–2 minutes.</p>
+
+    <p>Using <strong>Git command line</strong> (in the project folder):</p>
+    <ol class="steps">
+      <li>Open a terminal / PowerShell window and navigate to the project directory.</li>
+      <li>Run: <code>git add public/data/overseas_travel.xlsx</code></li>
+      <li>Run: <code>git commit -m "Update travel data July 2026"</code></li>
+      <li>Run: <code>git push</code></li>
+    </ol>
+
+    <p>Using <strong>GitHub Desktop</strong>:</p>
+    <ol class="steps">
+      <li>Open GitHub Desktop. The changed file (<code>overseas_travel.xlsx</code>) should appear in the Changes panel on the left.</li>
+      <li>Type a short commit message in the Summary field (e.g. "Update travel data July 2026").</li>
+      <li>Click <strong>Commit to main</strong>.</li>
+      <li>Click <strong>Push origin</strong> (top toolbar).</li>
+    </ol>
+    <div class="callout info">
+      <strong>GitHub Actions runs the build automatically</strong>
+      Pushing to the <code>main</code> branch triggers a GitHub Actions workflow that builds the dashboard and deploys it to GitHub Pages. You can watch the progress under the <strong>Actions</strong> tab of the repository on GitHub.com.
+    </div>
+
+    <!-- ── VERIFY ─────────────────────────────────────────── -->
+    <h2 id="update-verify">Step 3 — Verify the deployment</h2>
+    <ol class="steps">
+      <li>Go to the repository on GitHub.com and click the <strong>Actions</strong> tab.</li>
+      <li>Look for the most recent workflow run labelled <em>Deploy to GitHub Pages</em>. A green tick ✓ means the deployment succeeded.</li>
+      <li>Open the dashboard URL in your browser. If the data does not refresh immediately, do a hard reload: <kbd>Ctrl + Shift + R</kbd> (Windows / Linux) or <kbd>Cmd + Shift + R</kbd> (Mac).</li>
+      <li>Check the subtitle under the page title — it shows the data load timestamp and record count to confirm the new data is live.</li>
+    </ol>
+
+    <!-- ── COLUMNS ────────────────────────────────────────── -->
+    <h2 id="columns">Required Excel columns</h2>
+    <p>Each sheet must contain these column headers in row 1 (extra columns are ignored). Spelling must match exactly (extra spaces are tolerated and trimmed automatically):</p>
+    <table>
+      <tr><th>Column header in Excel</th><th>Dashboard field</th><th>Required?</th></tr>
+      <tr><td>OFFICER NAME</td><td>Officer Name</td><td><span class="badge green">Yes</span></td></tr>
+      <tr><td>GENDER</td><td>Gender (M / F)</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>POSITION TITTLE</td><td>Position Title</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>DEPARTMENT</td><td>Department</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>MINISTRY</td><td>Ministry</td><td><span class="badge green">Yes</span></td></tr>
+      <tr><td>TYPE OF TRAVEL</td><td>Type of Travel</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>TRAVEL DATE</td><td>Travel Date</td><td><span class="badge green">Yes</span></td></tr>
+      <tr><td>RETURN DATE</td><td>Return Date</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>DESTINATION</td><td>Destination</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>TRAVEL PURPOSE AND DETAILS ON ITS BENEFITS</td><td>Purpose</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>SOURCE OF FUNDING</td><td>Funding Source</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>ESTIMATE TRAVELS COSTS</td><td>Estimated Cost</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>IMPREST TOTAL</td><td>Imprest Total</td><td><span class="badge blue">Optional</span></td></tr>
+      <tr><td>NAME OF THE DONOR</td><td>Donor Name</td><td><span class="badge blue">Optional</span></td></tr>
+      <tr><td>APPROVED/NOT APPROVED</td><td>Approval Status</td><td><span class="badge green">Yes</span></td></tr>
+      <tr><td>REPORT</td><td>Report Filed</td><td><span class="badge yellow">Recommended</span></td></tr>
+      <tr><td>MISSION/INDIVIDUAL TRAVEL</td><td>Travel Mode</td><td><span class="badge blue">Optional</span></td></tr>
+    </table>
+    <div class="callout warn">
+      <strong>Note on "POSITION TITTLE"</strong>
+      The column header in the source Excel file is spelled "POSITION TITTLE" (double T). The dashboard reads this spelling exactly — do not correct it to "TITLE" without also updating the dashboard code in <code>src/lib/data.ts</code>.
+    </div>
+
+    <hr />
+
+    <!-- ── GLOSSARY ───────────────────────────────────────── -->
+    <h2 id="glossary">Glossary</h2>
+    <table>
+      <tr><th>Term</th><th>Meaning</th></tr>
+      <tr><td>VUV</td><td>Vanuatu Vatu — the currency used for all cost figures</td></tr>
+      <tr><td>Donor Funded</td><td>Trip costs are paid by a third-party donor organisation</td></tr>
+      <tr><td>Partly Donor</td><td>Some costs are donor-funded, some are government-funded</td></tr>
+      <tr><td>Government Funded</td><td>Trip costs are paid by the ministry or government budget</td></tr>
+      <tr><td>Pending</td><td>Approval status has not been recorded in the Excel file</td></tr>
+      <tr><td>Incomplete record</td><td>A record missing estimated cost, approval status, or officer gender</td></tr>
+      <tr><td>Group/Mission</td><td>Travel undertaken as part of a group or official mission</td></tr>
+      <tr><td>Individual</td><td>Travel undertaken by a single officer independently</td></tr>
+      <tr><td>Gender Equity %</td><td>Female officers as a percentage of all officers with a recorded gender</td></tr>
+      <tr><td>GitHub Pages</td><td>The free static web hosting service where the dashboard is deployed</td></tr>
+      <tr><td>GitHub Actions</td><td>The automated build-and-deploy pipeline that publishes the dashboard when code is pushed</td></tr>
+    </table>
+
+    <!-- ── TROUBLESHOOTING ────────────────────────────────── -->
+    <h2 id="troubleshoot">Troubleshooting</h2>
+    <table>
+      <tr><th>Problem</th><th>Likely cause</th><th>Fix</th></tr>
+      <tr>
+        <td>Dashboard shows old data after a push</td>
+        <td>Browser cache</td>
+        <td>Hard reload: <kbd>Ctrl+Shift+R</kbd></td>
+      </tr>
+      <tr>
+        <td>Some records have blank Travel Date on the Tracker</td>
+        <td>Date stored as text in an unusual format</td>
+        <td>Re-enter the date in the Excel file as a proper date cell (DD.MM.YYYY)</td>
+      </tr>
+      <tr>
+        <td>A ministry is missing from charts</td>
+        <td>The Ministry cell is blank in that row</td>
+        <td>Fill in the Ministry column in Excel for those rows</td>
+      </tr>
+      <tr>
+        <td>Female officer count changes when switching year filter</td>
+        <td>Some female records have undated or multi-date travel entries</td>
+        <td>Fix travel dates in Excel; those records appear in all year views until corrected</td>
+      </tr>
+      <tr>
+        <td>GitHub Actions deploy fails with red ✗</td>
+        <td>Build error or Pages not enabled</td>
+        <td>Check Actions logs; ensure GitHub Pages is set to "GitHub Actions" source in repo Settings → Pages</td>
+      </tr>
+      <tr>
+        <td>Dashboard shows "Failed to load data"</td>
+        <td>Excel file missing from <code>public/data/</code> or corrupt</td>
+        <td>Verify <code>public/data/overseas_travel.xlsx</code> exists in the repo and re-push</td>
+      </tr>
+      <tr>
+        <td>Domestic travel records not showing</td>
+        <td>Sheet renamed or not present</td>
+        <td>Ensure the second sheet is named exactly "Domestic Travels"</td>
+      </tr>
+    </table>
+
+    <footer>
+      <p>2026 Overseas Travel Registry Dashboard · User Manual · Generated 1 July 2026</p>
+      <p>For technical support, contact the dashboard maintainer or raise an issue in the GitHub repository.</p>
+    </footer>
+  </main>
+</div>
+</body>
+</html>
