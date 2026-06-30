@@ -38,7 +38,7 @@ export function ExecutiveOverview({ rows }: Props) {
       categories: miniTab === 'total'
         ? ministries.map(m => m.ministry)
         : [...ministries].sort((a, b) => b.totalCost - a.totalCost).map(m => m.ministry),
-      labels: { ...theme.xAxis?.labels, style: { ...(theme.xAxis?.labels as Highcharts.XAxisLabelsOptions)?.style, fontSize: '10px' } },
+      labels: { style: { color: '#4a5568', fontSize: '10px' } },
     },
     yAxis: { ...theme.yAxis, title: { text: miniTab === 'total' ? 'Requests' : 'VUV' } },
     series: miniTab === 'total'
