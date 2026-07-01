@@ -6,7 +6,7 @@ import {
 import type { TravelRow } from '../lib/types';
 import type { ReportStatus } from '../lib/data';
 import { formatVuv, formatDate } from '../lib/format';
-import { isIncomplete, formatTravelDate, getReportStatus, reportDueDate, parseTravelDate } from '../lib/data';
+import { isIncomplete, formatTravelDate, getReportStatus, reportDueDate } from '../lib/data';
 
 type Props = { rows: TravelRow[]; loadedAt: Date };
 
